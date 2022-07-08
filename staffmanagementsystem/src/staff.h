@@ -48,8 +48,8 @@ public:
     ~worker() override = default;;
 
     void showInfo() override {
-        printf("staff id: %d\nstaff name: %s\nstaff dept: %s\ntask: do the work from manager\n",
-               this->sid, this->name.c_str(), this->getDeptName().c_str());
+        printf("staff id: %d\nstaff name: %s\ndept_id: %d\nstaff dept: %s\ntask: do the work from manager\n",
+               this->sid, this->name.c_str(), this->dept_id, this->getDeptName().c_str());
     }
 
     string getDeptName() override {
@@ -68,8 +68,8 @@ public:
     ~manager() override = default;
 
     void showInfo () override {
-        printf("staff id: %d\nstaff name: %s\nstaff dept: %s\ntask: take task from boss and give to workers\n",
-               this->sid, this->name.c_str(), this->getDeptName().c_str());
+        printf("staff id: %d\nstaff name: %s\ndept_id: %d\nstaff dept: %s\ntask: take task from boss and give to workers\n",
+               this->sid, this->name.c_str(), this->dept_id, this->getDeptName().c_str());
     }
 
     string  getDeptName() override {
@@ -89,8 +89,8 @@ public:
     ~boss() override = default;
 
     void showInfo () override {
-        printf("staff id: %d\nstaff name: %s\nstaff dept: %s\ntask: operate the company.\n",
-               this->sid, this->name.c_str(), this->getDeptName().c_str());
+        printf("staff id: %d\nstaff name: %s\ndept_id: %d\nstaff dept: %s\ntask: operate the company.\n",
+               this->sid, this->name.c_str(), this->dept_id, this->getDeptName().c_str());
     }
 
     string  getDeptName() override {

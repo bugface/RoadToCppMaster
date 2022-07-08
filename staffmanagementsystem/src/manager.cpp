@@ -203,3 +203,103 @@ void managersys::showStaffInfo() {
         }
     }
 }
+
+int managersys::_findById(int sid) {
+    int index = -1;
+
+    for(int i=0; i<this->numStaff; ++i) {
+        if(this->staffArray[i]->getStaffID() == sid) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
+
+bool managersys::deleteStaffById() {
+    if(this->isFileEmpty) {
+        printf("No staff in system\n");
+        return false;
+    }
+
+    printf("input the id of the staff you want to delete\n");
+    int sid;
+    cin >> sid;
+
+    int index = this->_findById(sid);
+
+    if (index == -1) {
+        printf("staff you want to delete is not exist\n");
+        return false;
+    } else {
+        for (int i=index; i<(this->numStaff-1); ++i) {
+            this->staffArray[i] = this->staffArray[i+1];
+        }
+        this->numStaff--;
+        // sync with file
+        this->saveToFile();
+
+        return true;
+    }
+}
+
+bool managersys::modifyStaffById() {
+    if(this->isFileEmpty) {
+        printf("No staff in system\n");
+        return false;
+    }
+
+    printf("input the id of the staff you want to modify\n");
+    int sid;
+    cin >> sid;
+
+    int index = this->_findById(sid);
+
+    if (index == -1) {
+        printf("staff you want to modify is not exist\n");
+        return false;
+    } else {
+        printf("the current information for staff for modification:\n");
+        this->staffArray[index]->showInfo();
+        printf("input the new information (new name and new dept ID):\n");
+
+        sid = this->staffArray[index]->getStaffID();
+        string name;
+        int dept_id;
+
+        cin >> name;
+        cin >> dept_id;
+
+        staff * newStaff;
+        switch (dept_id) {
+            case 1:
+                newStaff = new worker(sid, name, dept_id);
+                break;
+            case 2:
+                newStaff = new manager(sid, name, dept_id);
+                break;
+            case 3:
+                newStaff = new boss(sid, name, dept_id);
+                break;
+            default:
+                cout << "not valid dept id (1-3), we default to 1" << endl;
+                newStaff = new worker(sid, name, 1);
+                break;
+        }
+
+        delete this->staffArray[index];
+        this->staffArray[index] = newStaff;
+        // sync with file
+        this->saveToFile();
+        return true;
+    }
+}
+
+int * managersys::_findByName(string name) {
+
+}
+
+void managersys::findStaff() {
+
+}

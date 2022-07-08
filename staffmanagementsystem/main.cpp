@@ -26,10 +26,20 @@ int main() {
                 msys.showStaffInfo();
                 break;
             case 3:
+                if (msys.deleteStaffById()) {
+                    printf("delete success!\n");
+                } else {
+                    printf("delete failed.\n");
+                }
                 break;
             case 4:
                 break;
             case 5:
+                if (msys.modifyStaffById()) {
+                    printf("modify success!\n");
+                } else {
+                    printf("modify failed.\n");
+                }
                 break;
             case 6:
                 break;
