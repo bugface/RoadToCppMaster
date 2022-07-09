@@ -18,12 +18,15 @@ int main() {
         switch (flag) {
             case 0:
                 managersys::systemExit();
+                system("cls");
                 break;
             case 1:
                 msys.addStaff();
+                system("cls");
                 break;
             case 2:
                 msys.showStaffInfo();
+                system("cls");
                 break;
             case 3:
                 if (msys.deleteStaffById()) {
@@ -31,8 +34,10 @@ int main() {
                 } else {
                     printf("delete failed.\n");
                 }
+                system("cls");
                 break;
             case 4:
+                msys.findStaff();
                 break;
             case 5:
                 if (msys.modifyStaffById()) {
@@ -42,8 +47,10 @@ int main() {
                 }
                 break;
             case 6:
+                msys.cleanup();
                 break;
             case 7:
+                msys.sortStaff();
                 break;
             default:
                 printf("invalid command, please re-input");

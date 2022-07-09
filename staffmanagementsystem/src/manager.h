@@ -10,8 +10,9 @@
 #include "string"
 #include "fstream"
 #include "staff.h"
+#include "filesystem"
 
-#define FILENAME "../file/staffFile.txt"
+#define FILENAME "file/staffFile.txt"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ private:
     void _getStaffNum();
     void _initStaffArray();
     int _findById(int sid);
-    int * _findByName(string name);
+    void _findByName(string &name);
 
 public:
     managersys();
@@ -38,6 +39,8 @@ public:
     bool deleteStaffById();
     bool modifyStaffById();
     void findStaff();
+    void sortStaff();
+    void cleanup();
 };
 
 

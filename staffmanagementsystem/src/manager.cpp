@@ -1,6 +1,5 @@
-//
-// Created by Yang,Xi on 7/4/22.
-//
+//Created by Yang,Xi on 7/4/22.
+
 #include "iostream"
 #include "manager.h"
 
@@ -15,7 +14,9 @@ void managersys::_init() {
 
 managersys::managersys() {
     ifstream ifs;
-    ifs.open(FILENAME, ios::in);
+    filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
+    printf("try to load data from: %s", fp.string().c_str());
+    ifs.open(fp.string(), ios::in);
 
     //file not exist
     if (! ifs.is_open()) {
@@ -49,6 +50,7 @@ managersys::managersys() {
 managersys::~managersys() {
     for(int i=0; i<this->numStaff; ++i) {
         delete this->staffArray[i];
+        this->staffArray[i]= nullptr;
     }
 
     delete[] this->staffArray;
@@ -68,7 +70,7 @@ void managersys::showMenu() {
 
 void managersys::systemExit() {
     printf("welcome to use again, exit!\n");
-    system("sleep 0.5");
+    system("pause");
     exit(0);
 }
 
@@ -128,7 +130,8 @@ void managersys::addStaff() {
 
 void managersys::saveToFile() {
     ofstream ofs;
-    ofs.open(FILENAME, ios::out);
+    filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
+    ofs.open(fp.string(), ios::out);
 
     for (int i=0; i<this->numStaff; ++i) {
 //        ofs << this->staffArray[i]->getStaffID() << " " << this->staffArray[i]->getStaffName()
@@ -148,8 +151,8 @@ void managersys::saveToFile() {
 
 void managersys::_getStaffNum() {
     ifstream ifs;
-
-    ifs.open(FILENAME, ios::in);
+    filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
+    ifs.open(fp.string(), ios::in);
 
     int sid;
     string name;
@@ -166,8 +169,8 @@ void managersys::_getStaffNum() {
 
 void managersys::_initStaffArray() {
     fstream ifs;
-
-    ifs.open(FILENAME, ios::in);
+    filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
+    ifs.open(fp.string(), ios::in);
 
     int sid;
     string name;
@@ -296,10 +299,107 @@ bool managersys::modifyStaffById() {
     }
 }
 
-int * managersys::_findByName(string name) {
+void managersys::_findByName(string &name) {
+    bool flag = true;
+    for (int i=0; i>this->numStaff; ++i) {
+        if (this->staffArray[i]->getStaffName() == name) {
+            printf("find a staff matched:\n");
+            this->staffArray[i]->showInfo();
+            cout << endl;
+            flag = false;
+        }
+    }
 
+    if (flag)  printf("No staff in system\n");
 }
 
 void managersys::findStaff() {
+    if (this->isFileEmpty) {
+        printf("No staff in system\n");
+        return;
+    }
 
+    printf("search by id = 1; search by name =2");
+
+    int search_method;
+    cin >> search_method;
+
+    if (search_method == 1) {
+        printf("input id you want to search:\n");
+        int search_id;
+        cin >> search_id;
+        int index = this->_findById(search_id);
+        if(index == -1) {
+            printf("staff with id : %d you want to delete is not exist\n", search_id);
+        } else {
+            this->staffArray[index]->showInfo();
+        }
+    } else {
+        printf("input staff name for search:\n");
+        string search_name;
+        cin >> search_name;
+        this->_findByName(search_name);
+    }
+}
+
+void managersys::sortStaff() {
+    if (this->isFileEmpty) {
+        printf("No staff in system\n");
+        return;
+    }
+
+    cout << "select sort method: 1. ascending; 2. descending" << endl;
+    int method;
+    cin >> method;
+
+    for (int i=0; i<this->numStaff; ++i) {
+        int minOrmax = i;
+        for (int j=(i+1); j<this->numStaff; ++j) {
+            if (method == 1) {
+                if (this->staffArray[minOrmax]->getStaffID() > this->staffArray[j]->getStaffID()) {
+                    minOrmax = j;
+                }
+            } else {
+                if (this->staffArray[minOrmax]->getStaffID() < this->staffArray[j]->getStaffID()) {
+                    minOrmax = j;
+                }
+            }
+        }
+
+        if(i != minOrmax) {
+            swap(this->staffArray[i], this->staffArray[minOrmax]);
+        }
+    }
+
+    this->saveToFile();
+
+    cout << "sort done." << endl;
+    this->showStaffInfo();
+}
+
+void managersys::cleanup() {
+    if (this->isFileEmpty) {
+        printf("No staff in system\n");
+        return;
+    }
+
+    filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
+
+    // overwrite file with empty
+    ofstream ofs(fp.string(), ios::out);
+    ofs.close();
+
+    if (this->numStaff > 0) {
+        for (int i=0; i<this->numStaff; ++i) {
+            delete this->staffArray[i];
+            this->staffArray[i] = nullptr;
+        }
+
+        delete[] this->staffArray;
+        this->staffArray = nullptr;
+        this->numStaff = 0;
+        this->isFileEmpty = true;
+    }
+
+    cout << "all data clean up." << endl;
 }
