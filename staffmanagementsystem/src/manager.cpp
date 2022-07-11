@@ -15,7 +15,7 @@ void managersys::_init() {
 managersys::managersys() {
     ifstream ifs;
     filesystem::path fp = filesystem::current_path().parent_path() / FILENAME;
-    printf("try to load data from: %s", fp.string().c_str());
+    printf("try to load data from: %s\n", fp.string().c_str());
     ifs.open(fp.string(), ios::in);
 
     //file not exist
@@ -70,7 +70,6 @@ void managersys::showMenu() {
 
 void managersys::systemExit() {
     printf("welcome to use again, exit!\n");
-    system("pause");
     exit(0);
 }
 
@@ -121,6 +120,7 @@ void managersys::addStaff() {
         delete[] this->staffArray;
         this->staffArray = newSpace;
         this->numStaff = newSize;
+        this->isFileEmpty = false;
     }else {
         printf("input must be integer > 0\n");
     }
@@ -301,7 +301,8 @@ bool managersys::modifyStaffById() {
 
 void managersys::_findByName(string &name) {
     bool flag = true;
-    for (int i=0; i>this->numStaff; ++i) {
+    for (int i=0; i<this->numStaff; ++i) {
+//        cout << this->staffArray[i]->getStaffName() << " " << name << endl;
         if (this->staffArray[i]->getStaffName() == name) {
             printf("find a staff matched:\n");
             this->staffArray[i]->showInfo();
