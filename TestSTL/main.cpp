@@ -20,5 +20,13 @@ int main() {
 
     testString3();
 
+    testStringFind();
+
+    testStringCompare();
+
+    tsetGetCharFromString();
+
+    testInsertDeleteString();
+
     return 0;
 }
