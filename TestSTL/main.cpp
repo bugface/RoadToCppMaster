@@ -1,6 +1,7 @@
 #include <iostream>
 #include "testvector.h"
 #include "TestString.h"
+#include "testVectorFunc.h"
 
 using namespace std;
 
@@ -27,6 +28,8 @@ int main() {
     tsetGetCharFromString();
 
     testInsertDeleteString();
+
+    testVectorConstructor();
 
     return 0;
 }

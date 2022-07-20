@@ -2,7 +2,7 @@
 // Created by alex on 7/13/22.
 //
 
-#ifndef TESTSTL_TESTVECTOR_H
+#ifndef TESTSTL_TESTVECTORFUNC_H
 #define TESTSTL_TESTVECTOR_H
 #include <iostream>
 #include <string>
@@ -27,4 +27,4 @@ void test2();
 void test3();
 void test4();
 
-#endif //TESTSTL_TESTVECTOR_H
+#endif //TESTSTL_TESTVECTORFUNC_H
