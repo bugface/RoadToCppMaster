@@ -3,6 +3,9 @@
 #include "TestString.h"
 #include "testVectorFunc.h"
 #include "testDeque.h"
+#include "RefScore.h"
+#include "TestStackQueue.h"
+#include "TestListSet.h"
 
 using namespace std;
 
@@ -23,6 +26,13 @@ int main() {
     testVectorConstructor();
 
     testDeque();
+    runRefScore();
+
+    testStack();
+    testQueue();
+
+    testList();
+    testSet();
 
     return 0;
 }
