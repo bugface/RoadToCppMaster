@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <list>
+#include <set>
 #include <algorithm>
 
 using namespace std;
@@ -40,6 +41,15 @@ void printList(const list <T> &l) {
     cout << endl;
 }
 
+template<class T>
+void printSet(const set<T> &l) {
+    for (auto it = l.begin(); it != l.end(); ++it) {
+        cout << *it << " ";
+    }
+
+    cout << endl;
+}
+
 bool isOdd(int i) {
     return (i % 2) == 0;
 }
@@ -55,7 +65,7 @@ bool comparePP(PP &p1, PP &p2) {
         } else {
             return p1.b > p2.b;
         }
-    }else {
+    } else {
         return p1.a > p2.a;
     }
 }
@@ -168,6 +178,128 @@ void testList() {
 }
 
 void testSet() {
+    // multiset -> can have multiple same elements
+    // set auto sort -> because use red-black tree
+    set<int> s1;
+    auto chk = s1.insert(1);
+    cout << *chk.first << chk.second << endl;
+
+    pair<set<int>::iterator, bool> p = s1.insert(5);
+    cout << *p.first << p.second << endl;
+
+    s1.insert(2);
+    s1.insert(4);
+    s1.insert(3);
+    s1.insert(4);
+
+    chk = s1.insert(1);
+    cout << *chk.first << chk.second << endl;
+
+    printSet(s1); // 1,2,3,4,5
+
+    s1.erase(2);
+    printSet(s1);
+    auto it = s1.find(4);
+    cout << *it << endl;
+    it = s1.find(100);
+    cout << (it == s1.end()) << endl;
+    cout << s1.count(3) << s1.count(2) << endl;
+
+    multiset<int> s2;
+    s2.insert(1);
+    s2.insert(5);
+    s2.insert(2);
+    s2.insert(4);
+    s2.insert(3);
+    s2.insert(4);
+    s2.insert(1);
+    for(it=s2.begin(); it != s2.end(); ++it) {
+        cout << *it << " ";
+    }
+    cout << endl;
+
+    // pair -> group two data
+    pair<string, int> p1 = make_pair("alex", 19);
+    cout << p1.first << " " << p1.second << endl;
+    pair<string, int> p2("test", 1);
+    cout << p2.first << " " << p2.second << endl;
+}
+
+// this is very old solution
+class Comp{
+public:
+    bool operator()(int v1, int v2) const {
+        return v1 > v2;
+    }
+};
+
+//modern solution
+bool cmp(int a, int b) {
+    return a > b;
+}
+
+bool cmp1(const PP &x, const PP &y) {
+    if (x.a == y.a) {
+        if (x.b == y.b) {
+            return x.s < y.s;
+        } else {
+            return x.b < y.b;
+        }
+    } else {
+        return x.a < y.a;
+    }
+}
+
+void testSetSort() {
+    set<int, Comp> s2;
+    s2.insert(1);
+    s2.insert(5);
+    s2.insert(2);
+    s2.insert(4);
+    s2.insert(3);
+    s2.insert(4);
+    s2.insert(1);
+
+    for(int it : s2) {
+        cout << it << " ";
+    }
+    cout << endl;
+
+    set<int, decltype(cmp)*> s1(cmp);
+    s1.insert(1);
+    s1.insert(5);
+    s1.insert(2);
+    s1.insert(4);
+    s1.insert(3);
+    s1.insert(4);
+    s1.insert(1);
+
+    for(int it : s1) {
+        cout << it << " ";
+    }
+    cout << endl;
+
+    PP p1 = {35, 175, "abs"};
+    PP p2 = {45, 180, "xsf"};
+    PP p3 = {40, 170, "gdv"};
+    PP p4 = {25, 190, "vsbd"};
+    PP p5 = {35, 175, "pdif"};
+    PP p6 = {35, 200, "xdif"};
+
+    // we need to declare args in cmp1 as const
+    // to constrain no data change during comparison
+    set<PP, decltype(cmp1)*> s3(cmp1);
+    s3.insert(p1);
+    s3.insert(p2);
+    s3.insert(p3);
+    s3.insert(p4);
+    s3.insert(p5);
+    s3.insert(p6);
+
+    for(const auto& it : s3) {
+        cout << it.a << it.b << it.s << endl;
+    }
+    cout << endl;
 
 }
 

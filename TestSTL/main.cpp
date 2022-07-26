@@ -33,6 +33,7 @@ int main() {
 
     testList();
     testSet();
+    testSetSort();
 
     return 0;
 }
