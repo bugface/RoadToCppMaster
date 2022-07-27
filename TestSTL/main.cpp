@@ -6,10 +6,20 @@
 #include "RefScore.h"
 #include "TestStackQueue.h"
 #include "TestListSet.h"
+#include "TestMap.h"
+#include <boost/smart_ptr/shared_ptr.hpp>
 
 using namespace std;
 
+class A{};
+
 int main() {
+    boost::shared_ptr<A> pA(new A);
+    cout << pA.get() << endl;
+    boost::shared_ptr<A> pB(pA);
+    cout << pA.get() << endl;
+    cout << pB.get() << endl;
+
     test1();
     test2();
     test3();
@@ -34,6 +44,9 @@ int main() {
     testList();
     testSet();
     testSetSort();
+
+    testMap();
+    testSortMap();
 
     return 0;
 }

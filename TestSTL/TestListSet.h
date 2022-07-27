@@ -218,6 +218,8 @@ void testSet() {
     }
     cout << endl;
 
+    cout << s2.count(1) << endl;
+
     // pair -> group two data
     pair<string, int> p1 = make_pair("alex", 19);
     cout << p1.first << " " << p1.second << endl;
