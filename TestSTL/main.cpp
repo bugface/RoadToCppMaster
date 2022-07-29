@@ -8,6 +8,8 @@
 #include "TestListSet.h"
 #include "TestMap.h"
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include "StaffGrouping.hpp"
+#include "funcobj.hpp"
 
 using namespace std;
 
@@ -47,6 +49,11 @@ int main() {
 
     testMap();
     testSortMap();
+
+    groupStaff();
+    groupStaff1();
+
+    testBool();
 
     return 0;
 }
