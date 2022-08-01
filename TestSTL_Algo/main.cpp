@@ -1,5 +1,6 @@
 #include "testAlgo.hpp"
 #include "testCopyReplacement.hpp"
+#include "testMath.hpp"
 
 using namespace std;
 
@@ -8,4 +9,7 @@ int main() {
     testTransform();
     testSearch();
     testCopy();
+    testReplace();
+    testMath();
+    testSetRelated();
 }
